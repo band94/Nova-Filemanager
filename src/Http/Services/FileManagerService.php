@@ -185,6 +185,10 @@ class FileManagerService
      */
     public function uploadFile($file, $currentFolder, $visibility, $uploadingFolder = false)
     {
+        if (!$file->getSize()) {
+            return response()->json(['success' => false]);
+        }
+
         $fileName = $this->namingStrategy->name($currentFolder, $file);
 
         if ($this->storage->putFileAs($currentFolder, $file, $fileName)) {
